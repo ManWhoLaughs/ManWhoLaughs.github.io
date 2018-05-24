@@ -62,7 +62,7 @@ map.on('click', 'full_map' ,function (e) {
         .setLngLat(e.lngLat)
         .setHTML("<h3 style=\"margin:6px; color:rgba(245, 245, 245,1);\">" + e.features[0].properties.Name + "</h3>\n"
             + "\n<p style=\"margin:6px;  color:rgba(235,235,235,1);\"> Crime rating: " + e.features[0].properties['Crime rating'] + "</p>"
-        + "<p style=\"margin:6px;  color:rgba(235,235,235,1);\">" + "Dynamic of rating: " + e.features[0].properties['Dynamic'] + "</p>"
+        + "<p style=\"margin:6px;  color:rgba(235,235,235,1);\">" + "Dynamic of situation: " + e.features[0].properties['Dynamic'] + "</p>"
         + "\n<p style=\"margin:6px; color:rgba(235, 235, 235, 1);\"> Group: " + grp + "</p>") 
         .addTo(map);
     } else {

@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Criminal rating project</title>
+        <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.45.0/mapbox-gl.js'></script>
+        <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.45.0/mapbox-gl.css' rel='stylesheet' />
+        <style>
+
+           @font-face {
+                font-family: "San Francisco";
+                font-weight: 400;
+                src: url("https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-regular-webfont.woff");
+           }
+
+            P {
+                font-family: "San Francisco";
+                font-size: 15px;
+            }
+
+            .tablinks {
+                font-family: "San Francisco";
+            }
+
+            body, html {
+                padding: 0;
+                margin: 0;
+            } 
+            .mapboxgl-popup-content {
+                background-color:#333;
+                opacity:0.85;
+                animation: popFade 0.5s;
+            }
+
+            .mapboxgl-popup-close-button {
+                color: rgba(235, 235, 235, 1);
+            }
+            @keyframes popFade {
+                from { opacity: 0;}
+                to {opacity: 0.85;}
+            }
+            .mapboxgl-popup-tip {
+                opacity:0;
+            }
+
+            .sidenav {
+                height: 100%;
+                width: 10%;
+                position: fixed;
+                z-index: 1;
+                top: 0;
+                right: 0;
+                background-color: rgba(1,1,1,0.85);
+                overflow-x: hidden;
+                padding-top: 60px;
+                transition: 0.5s;
+            }
+            .sidenav a {
+                padding: 8px 8px 8px 32px;
+                text-decoration: none;
+                font-size: 25px;
+                color: #818181;
+                display: block;
+                transition: 0.3s;
+                
+            }
+            .sidenav a:hover {
+                color: #f1f1f1;
+            }
+            .sidenav .closebtn {
+                position: absolute;
+                top: 0;
+                right: 25px;
+                font-size: 36px;
+                margin-left: 50px;
+            }
+
+            .fade {
+                position: absolute;
+                height: 100%;
+                width: 25%;
+                opacity: 0;
+                background-color: rgba(1, 1, 1, 0.4);
+            }
+
+            @keyframes fadeEff {
+                from {opacity: 0;}
+                to {opacity: 1;}
+            }
+        </style>
+  </head>
+
+<body style="background-color:#111">
+    <div id="mySidenav" class="sidenav">
+        <div class="symbol" onclick="exchange(this)" style="position:absolute; top:50%; left:30px;">
+            <style>
+                .first, .second, .third {
+                    width: 35px;
+                    height: 4px;
+                    background-color: rgba(217, 217, 217, 1);
+                    margin: 6px 0;
+                    transition:1s;
+                }
+
+                .change .first {
+                    -webkit-transform: rotate(-45deg) translate(-4px, 3px);
+                    transform: rotate(-45deg) translate(-4px, 3px);
+                }
+
+                .change .second {opacity: 0;}
+
+                .change .third {
+                    -webkit-transform: rotate(45deg) translate(-10px, -10px);
+                    transform: rotate(45deg) translate(-10px, -10px);
+                }
+            </style>
+            <div class="first"> </div>
+            <div class="second"> </div>
+            <div class="third"> </div>
+        </div>
+        <style>
+            .symbol {
+                display: inline-block;
+                cursor:pointer;
+            }
+            .btn-group {
+                position: absolute;
+                top: 0%;
+                left: 18%;
+                width: 100%;
+                height: 100%;
+                display: none;
+            }
+            .btn-group button {
+                background-color: rgba(50, 50, 50, 0.7);
+                color: white;
+                float: left;
+                border: none;
+                outline: none;
+                padding: 14px 16px;
+                font-size: 13px;
+                width: 10%;
+                height: 7%;
+                opacity:0;
+            }
+            .btn-group button:hover {
+                background-color: rgba(70, 70, 70, 0.7);
+            }
+
+            .tabcontent {
+                position: absolute;
+                left: 18%;
+                top 80%;
+                width: 61.2%;
+                background-color: '';
+                color: white;
+                display: none;
+                padding: 10px 10px;
+                height: 60%;
+            }
+
+            .tabcontent {
+                animation: fadeEffect 1s;
+            }
+
+            @keyframes fadeEffect {
+                from {opacity: 0;}
+                to {opacity: 1;}
+            }
+            @keyframes defade {
+                from {opacity: 1;}
+                to {opacity: 0;}
+            }
+
+        </style>
+        <div class='btn-group'>
+            <button class="tablinks" onclick="openPage('Annotation', this, '#123')" id='defaultOpen'>Annotation</button>
+            <button class="tablinks" onclick="openPage('Very Good', this, 'rgba(42, 160, 42, 0.4)')">Very Good</button>
+            <button class="tablinks" onclick="openPage('Good', this, 'rgba(1,99,1,0.4)')">Good</button>
+            <button class="tablinks" onclick="openPage('Normal', this, 'rgba(54, 200, 200, 0.4)')">Normal</button>
+            <button class="tablinks" onclick="openPage('Increased', this, 'rgba(244, 200, 24, 0.4)')">Increased</button>
+            <button class="tablinks" onclick="openPage('High', this, 'rgba(244, 128, 24, 0.4)')">High</button>
+            <button class="tablinks" onclick="openPage('Very High', this, 'rgba(225, 10, 34, 0.4)')">Very High</button>
+        </div>
+        <div id="Annotation" class="tabcontent">
+            <h3>Annotation</h3>
+            <p>
+                This is my small researchment, which is provided in the HSE semester project's boundaries.
+                On the interactive map hidden behind this page you can see the results of processing, summation and research
+                of criminal parameters of some different countries all over the world.
+            </p>
+            <p>
+                This issue can be interesting in migrational and touristical purposes, because crime level is important specification in
+                process of choosing a country for a holiday travel or a temporary work place. Knowledge about criminal situation in country
+                becomes very important when you are traveling with children or when you do not have enough money to live/stay in reach and safe
+                regions of chosen country.
+            </p>
+            <p>
+                All represented information is based on official data, published by police authorities of different countries, and open 
+                statistics from similar researchments, collected mostly on knoema.com and simillar web sites.
+            </p>
+            <p>
+                Please, consider that my researchment is based on information of period between 2010 and 2015. So, in 2018 it can be not quite accurate
+                and relevant for some countries. You may click on countries to see their rating.
+            </p>
+            <p>
+                I analyzed wide number of different crime types for each country, such as: homicide, kidnapping, burglary, housebraking, raping and e.t.c.
+                All indicators were represented in two types: total number of incidents and incidents rate on ten thousand people.
+                There was created a linear model for evaluating total crime rating based on obtained result.
+                Serious crimes were evaluated with highest weights with the aim to distinguish countries with lots of pickpocketing incedents and countries
+                where you will be more likely killed than robbed.
+                As you can see, many countries are not highlighted on the map. It happens because I could not find enough reliable official information
+                about them. Some of them do not publish their statistics for free access and some of them even do not have any trustable data.
+            </p>
+            <p>
+                All analyzed countries are divided into six groups by my own crime : "Very Good", "Good", "Normal", "Increased", "High" and "Very High".
+                To read additional information about each group you can switch over tabs at the top.
+            </p>
+            <p>
+                Materials of researchment such as Jupyter Notebooks and some data files you can download on this links:
+            </p>
+                <a style="font-size:12px; position:absolute; left:0%" href="data.zip" download>Data files</a>
+                <a style="font-size:12px; position:absolute; left:20%" href="Processing.ipynb" download>Process Notebook</a>
+                <a style="font-size:12px; position:absolute; left:40%" href="Research.ipynb" download>Research Notebook</a>
+        </div>
+
+        <div id="Very Good" class="tabcontent">
+            <h3>Very Good</h3>
+            <p>
+                Criminal indices of these countries are extremely low. This means that countries from "Very Good" group have very powerful
+                and effective police system and strict legislation. You can travel to these countries without any fear that you are likely to be robbed.
+                It does not mean that you can leave your baggage open on the street, but criminal risks are tiny in comparison with average level all over the world.
+            </p>
+            <p>
+                It is noticeable that most of this group members are small and rather prosperous countries, situated on the east of Europe.
+                Of all these countries, China stands out. Despite the huge territory and more than one billion of populations, it shows great crime indicators.
+                It happens because of very strict and effective government system for combating crime and deep implementation of modern security technologies
+                such as face recognition system.
+            </p>
+            <p>
+                However, some small island states also have very good safety index, but in their case it this situation is due to some peaceful cultural traits
+                of small population, calm and passive life in isolation and moderate government political course.
+            </p>
+            <p>
+                The most frequent crime type in these countries is common theft: pickpocketing and burglary. Homicides, rapes and kidnapping are on the lowest position.
+            </p>
+        </div>
+
+        <div id="Good" class="tabcontent">
+            <h3>Good</h3>
+            <p>
+                "Good" countries is some kind of european standart of life quality. Here you can not take too much care about your and your property safety.
+                Ofcourse, situation in deep-green regions is worse than in the "Very Good" group, but it is still very nice.
+                Life in these countries can be named "comfortable" and "safe".
+            </p> 
+            <p>
+                Main part of this group is concentrated in central and Northern Europe. It is absolutely obvious, that the most powerful and reach european countries 
+                have good criminal statistics, in the light of developed police system and high educational and cultural level of population. Countries of the Baltic
+                States also have good parameters because of stable life and satisfying level of economical development.
+            </p>
+            <p>
+                However, in the recent years european situation was significantly worsened in the light of migrants and refugees from undeveloped countries.
+                Thats why now crime indices of central Europe are keeping slightly grow up, but it is not so strongly expressed on my rating,
+                because of earlier period of time.
+            </p>
+            <p>
+                The most frequent types of crime are burglary, housebraking and robbery. Also, reach countries have greater number of car thefts, because of
+                greater total number of expensive cars.
+            </p>
+        </div>
+
+        <div id="Normal" class="tabcontent">
+            <h3>Normal</h3>
+            <p>
+                The name "Normal" is pretty subjective, so far as normal level is measured by myself. But in fact, this is interlayer between the generally
+                recognized safe countries and countries with some notable crime problems. This is the fair median. Many of these countries have insignificant 
+                differences with their neighbours in "Good" group, but do not have so well-working police system.
+            </p>
+            <p>
+                Life in these countries can not be characterized with some controversial points. Life safety is absolutely normal. Moreover, overall life standards 
+                in all of these countries may be extremely different. "Normal" rank means only satisfying crime level. It do not give any information about other 
+                spheres of life. But at least you may be calm about your life safety.
+            </p>
+            <p>
+                I suppose that normal indices may show either that you really do not have to worry about your safety here or just specially processed official 
+                crime data down to average level. However, this depends on each separately selected country.
+            </p>
+        </div>
+
+        <div id="Increased" class="tabcontent">
+            <h3>Increased</h3>
+            <p>
+                Increased level leaves the borders of relatively safe life, but not too critical. All of orange regions are suitable for life and work.
+                You should just pay more attention for your safety in some districts or special places and you will not feel the huge difference with "normal" level.
+                This enlargement in offenses number may be connected with different reasons: imperfect laws, which do not restrict crime in the right scale, problems 
+                with migrants or just poverty.
+            </p>
+            <p>
+                The most notable representative of this class is USA. As everybody knows, it has one of the most powerful economies in the world and great carrer 
+                opportunities. But with such a great amount of resources and territories USA also has a list of various problems: migrants from South America and 
+                controversial law on the carrying of weapon. 
+            </p>
+            <p>
+                From this example you can see that countries with "Increased" rank may possess significant advantages and some tangible problems.
+                To build up a full picture you should learn more about particular country you want to visit or emigrate. These regions
+                are contradictory in many apsects.
+            </p>
+            <p>
+                "Increased" category is simillar to "Normal" in crime types with differences in raising level of robbery and cars thefts.
+            </p>
+        </div>
+
+        <div id="High" class="tabcontent">
+            <h3>High</h3>
+            <p>
+                Name "High" speaks for itself. "High" countries have significantly increased level of crime, more often they are located together
+                with the other "High" and "Very High" ones. This category is fairly broad, country from it can be both "little bit more than slightly increased" and 
+                "extremely high crime level aspiring to the worst category". That is why you should consider each "High" country more detailed. Here numbers are most 
+                important.
+            </p>
+            <p>
+                Despite the large variance, all red countries are not recommended to accommodation. High crime level makes them not safe and not comfortable to 
+                simple workers. Your life and holding is not reliably protected here. Huge percent of crimes lays on serious types such as people thefts and homicides.
+            </p>
+            <p>
+                As mentioned earlier, most of these countries are located in huge groups. Africa and South America is two main centers. Countries with high crime level 
+                have similar problems: low standard of living, weak police system, low level of education and poverty. It is rather clear, that all
+                these characteristics are not satisfying for work migration or long-live journey.
+            </p>
+        </div>
+
+        <div id="Very High" class="tabcontent">
+            <h3>Very High</h3>
+            <p>
+                Mark "Very High" displays really deplorable situation in bright-red regions.
+                It means that local police system absolutely can not cope with crime. Great influence on life in this countries is 
+                provided by large criminal groups, which are above the law. A characteristic feature of this countries is enormous traffic in drugs 
+                and illegal weapon-trade.
+            </p>
+            <p>
+                You should think twice before going to this countries, because level of homicides, rapes, kidnapping and people theft is out of bounds
+                of acceptable level. If you plan to be out of the relatively safe touristical areas, you put yourself in danger, especially in the evening time.
+                You should pay attention for your safety and carefully choose places of walking.
+            </p>
+            <p>
+                As you can see, most part of this group is located in South America. There are a lot of countries with very interesting and old culture, which 
+                are attractive for tourists. However, most of them have relatively safe touristic places, because tourism brings significant revenues to the government.
+                And if you are looking for bright memories from Brazilian Carnival, for example, you may feel yourself little bit relaxed, but exploring native citizen
+                life in work districts is strongly not recommended.
+            </p>
+            <p>
+                And if you have firmly decided to visit one of this countries, you should carefully choose place of your hotel or residence and search for reliable 
+                contacts with official and legal local companies.
+            </p>
+        </div>
+        <script src="pageOpen.js"></script>
+
+    </div>
+    
+
+    <div id='map' style='position:absolute; top:0; bottom:0; width: 90%; height: 100%;'></div>
+
+    <script src="mapScript.js"></script>
+    <div class="fade" id = "bg" style='display:none;'> </div>
+</body>
+</html>

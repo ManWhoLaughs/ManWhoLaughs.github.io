@@ -30,7 +30,7 @@ map.on('load', function () {
                 'Normal', 'rgba(54, 200, 200, 0.4)',
                 'Increased', 'rgba(244, 200, 24, 0.4)',
                 'High', 'rgba(244, 128, 24, 0.4)',
-                'Very High', 'rgba(225, 10, 34, 0.4)',
+                'Very high', 'rgba(225, 10, 34, 0.4)',
                 'Deadly', 'rgba(255, 0, 0, 0.45)',
                 'None', 'rgba(0, 0, 0, 0.2)',
                 'rgba(100, 100, 400, 0.4)'
@@ -43,7 +43,7 @@ map.on('load', function () {
                 'Normal', 'rgba(54, 200, 200, 1)',
                 'Increased', 'rgba(244, 200, 24, 1)',
                 'High', 'rgba(244, 128, 24, 1)',
-                'Very High', 'rgba(225, 10, 34, 1)',
+                'Very high', 'rgba(225, 10, 34, 1)',
                 'Deadly', 'rgba(255, 0, 0, 1)',
                 'None', 'rgba(0, 0, 0, 0)',
                 'rgba(0, 0, 0, 0)'
@@ -53,6 +53,7 @@ map.on('load', function () {
 });
 
 map.on('click', 'full_map' ,function (e) {
+    console.log(e.features[0]);
     if (e.features[0].properties.Qonqlusion != "None") {
         let grp = e.features[0].properties.Qonqlusion;
         if (grp == 'Deadly') {
